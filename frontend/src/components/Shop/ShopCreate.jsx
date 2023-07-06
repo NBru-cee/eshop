@@ -154,6 +154,7 @@ const ShopCreate = () => {
                         <input
                            type="number"
                            name="zipCode"
+                           autoComplete="zipCode"
                            required
                            value={zipCode}
                            onChange={(e) => setZipCode(e.target.value)}
