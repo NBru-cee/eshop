@@ -9,6 +9,7 @@ const { upload } = require("../multer");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const ErrorHandler = require("../utils/ErrorHandler");
 const sendShopToken = require("../utils/shopToken");
+const isAuthenticated = require("../middleware/auth");
 
 // create shop
 router.post("/create-shop", upload.single("file"), async (req, res, next) => {
@@ -143,6 +144,45 @@ router.post(
          }
 
          sendShopToken(seller, 201, res);
+      } catch (error) {
+         return next(new ErrorHandler(error.message, 500));
+      }
+   })
+);
+// load shop
+router.get(
+   "/get-seller",
+   catchAsyncErrors(async (req, res, next) => {
+      try {
+         const seller = await Shop.findById(req.seller.id);
+         if (!seller) {
+            return next(new ErrorHandler("Seller doesn't exist", 400));
+         }
+         res.status(200).json({
+            success: true,
+            seller,
+         });
+      } catch (error) {
+         return next(new ErrorHandler(error.message, 400));
+      }
+   })
+);
+
+//logout seller
+router.get(
+   "/logout",
+   isAuthenticated,
+   catchAsyncErrors(async (req, res, next) => {
+      try {
+         res.cookie("token", null, {
+            expires: new Date(Date.now()),
+            httpOnly: true,
+         });
+
+         res.status(201).json({
+            success: true,
+            message: "Logged out successfully!",
+         });
       } catch (error) {
          return next(new ErrorHandler(error.message, 500));
       }

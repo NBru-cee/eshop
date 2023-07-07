@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
 import { loadUser } from "./redux/actions/user";
+import { loadSeller } from "./redux/actions/seller";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import {
    LoginPage,
@@ -29,6 +30,7 @@ const App = () => {
 
    useEffect(() => {
       dispatch(loadUser());
+      dispatch(loadSeller());
    }, []);
 
    return (
