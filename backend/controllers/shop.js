@@ -9,7 +9,7 @@ const { upload } = require("../multer");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const ErrorHandler = require("../utils/ErrorHandler");
 const sendShopToken = require("../utils/shopToken");
-const isAuthenticated = require("../middleware/auth");
+const { isAuthenticated, isSeller } = require("../middleware/auth");
 
 // create shop
 router.post("/create-shop", upload.single("file"), async (req, res, next) => {
@@ -152,6 +152,7 @@ router.post(
 // load shop
 router.get(
    "/get-seller",
+   isSeller,
    catchAsyncErrors(async (req, res, next) => {
       try {
          const seller = await Shop.findById(req.seller.id);
