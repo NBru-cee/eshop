@@ -1,8 +1,11 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { backendUrl } from "../../server";
+import styles from "../../styles/styles";
 
 const ShopInfo = ({ isOwner }) => {
+   const logoutHandler = () => {};
+
    const { seller } = useSelector((state) => state.seller);
    return (
       <div>
@@ -41,6 +44,21 @@ const ShopInfo = ({ isOwner }) => {
                {seller.createdAt.slice(0, 10)}
             </h4>
          </div>
+         {isOwner && (
+            <div className="py-3 px-4">
+               <div
+                  className={`${styles.button} !w-full !h-[42px] !rounded-[5px]`}
+               >
+                  <span className="text-white">Edit Shop</span>
+               </div>
+               <div
+                  className={`${styles.button} !w-full !h-[42px] !rounded-[5px]`}
+                  onClick={logoutHandler}
+               >
+                  <span className="text-white">Log Out</span>
+               </div>
+            </div>
+         )}
       </div>
    );
 };
