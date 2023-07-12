@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import styles from "../../styles/styles";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { server } from "../../server";
 import axios from "axios";
 import { toast } from "react-toastify";
 
 const ShopLogin = () => {
-   const navigate = useNavigate();
    const [email, setEmail] = useState("");
    const [password, setPassword] = useState("");
    const [isVisible, setIsVisible] = useState(false);
@@ -27,7 +26,6 @@ const ShopLogin = () => {
             toast.success(res.data.message);
             setEmail("");
             setPassword("");
-            navigate("/");
             window.location.reload(true);
          })
          .catch((err) => toast.error(err.response.data.message));

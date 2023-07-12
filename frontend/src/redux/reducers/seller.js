@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
    isAuthenticated: false,
-   loading: false,
+   isLoading: false,
    seller: null,
    error: null,
 };
@@ -12,15 +12,15 @@ const sellerSlice = createSlice({
    initialState,
    reducers: {
       loadSellerRequest: (state) => {
-         state.loading = true;
+         state.isLoading = true;
       },
       loadSellerSuccess: (state, action) => {
          state.isAuthenticated = true;
-         state.loading = false;
+         state.isLoading = false;
          state.seller = action.payload;
       },
       loadSellerFail: (state, action) => {
-         state.loading = false;
+         state.isLoading = false;
          state.error = action.payload;
          state.isAuthenticated = false;
       },
