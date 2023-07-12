@@ -9,7 +9,7 @@ const ShopLoginPage = () => {
 
    useEffect(() => {
       if (isSeller) {
-         navigate(`dashboard`);
+         navigate(`/dashboard`);
       }
    }, [isLoading, isSeller]);
 
