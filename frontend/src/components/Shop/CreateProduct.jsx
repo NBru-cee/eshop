@@ -10,18 +10,17 @@ const CreateProduct = () => {
    const { seller } = useSelector((state) => state.seller);
    const { success, error } = useSelector((state) => state.product);
    const navigate = useNavigate();
-   const dispath = useDispatch();
+   const dispatch = useDispatch();
    const [images, setImages] = useState([]);
    const [name, setName] = useState("");
    const [description, setDescription] = useState("");
    const [category, setCategory] = useState("");
    const [tags, setTags] = useState("");
-   const [originalPrice, setOriginalPrice] = useState("");
-   const [discountPrice, setDiscountPrice] = useState("");
-   const [stock, setStock] = useState("");
+   const [originalPrice, setOriginalPrice] = useState();
+   const [discountPrice, setDiscountPrice] = useState();
+   const [stock, setStock] = useState();
 
    const handleImageChange = (e) => {
-      e.preventDefault();
       let files = Array.from(e.target.files);
       setImages((prevImages) => [...prevImages, ...files]);
    };
@@ -40,7 +39,8 @@ const CreateProduct = () => {
       newForm.append("discountPrice", discountPrice);
       newForm.append("stock", stock);
       newForm.append("shopId", seller._id);
-      dispath(createProduct(newForm));
+
+      dispatch(createProduct(newForm));
    };
 
    useEffect(() => {
@@ -51,7 +51,7 @@ const CreateProduct = () => {
          toast.success("Product created successfully!");
          navigate("/dashboard");
       }
-   }, [dispath, error, success]);
+   }, [dispatch, error, success]);
 
    return (
       <div className="800px:w-[50%] w-[90%] bg-white shadow h-[80vh] rounded-[4px] p-3 overflow-y-scroll">
@@ -82,9 +82,7 @@ const CreateProduct = () => {
                </label>
                <textarea
                   cols="30"
-                  required
                   rows="8"
-                  name="description"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   className="mt-2 appearance-none block w-full pt-2 px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 sm:text-sm"
@@ -176,15 +174,14 @@ const CreateProduct = () => {
                   multiple
                   onChange={handleImageChange}
                />
-
-               <label htmlFor="upload">
-                  <AiOutlinePlusCircle
-                     size={30}
-                     className="mt-3 cursor-pointer"
-                     color="#555"
-                  />
-               </label>
                <div className="w-full flex items-center flex-wrap">
+                  <label htmlFor="upload">
+                     <AiOutlinePlusCircle
+                        size={30}
+                        className="mt-3 cursor-pointer"
+                        color="#555"
+                     />
+                  </label>
                   {images &&
                      images.map((i, index) => (
                         <img
@@ -199,6 +196,7 @@ const CreateProduct = () => {
                <div>
                   <input
                      type="submit"
+                     role="button"
                      value="Create"
                      className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 sm:text-sm cursor-pointer"
                   />
